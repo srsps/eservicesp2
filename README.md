@@ -13,7 +13,7 @@ Then navigate to `localhost:4000` in your web browser.
 
 ## Usage
 
-There are 4 tabs in this app: `About, Exploratory Data Analysis ,Cleaning,Clustering,Forecasts`
+There are 5 tabs in this app: `About, Exploratory Data Analysis ,Cleaning,Clustering,Forecasts`
 
 
 
