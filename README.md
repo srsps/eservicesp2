@@ -7,7 +7,7 @@ $ pip install -r requirements.txt
 ## Run the app
 
 ```bash
-python testv3.py
+python app.py
 ```
 Then navigate to `localhost:4000` in your web browser.
 
