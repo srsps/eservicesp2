@@ -1,5 +1,5 @@
 ## Author
-`Sreejith P Sajeev`,
+`Sreejith P Sajeev`
 ## Setting up the enviornment
 $ Runtime python- 3.7.1\
 $ pip install -r requirements.txt
