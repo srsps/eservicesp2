@@ -19,7 +19,7 @@ There are 5 tabs in this app: `About, Exploratory Data Analysis ,Cleaning,Cluste
 
 ## Documentation
 
-Learn more about python based APIs at 'https://docs.openmc.org/en/stable/pythonapi/index.html'
+Learn more about python based dash at 'https://dash.plotly.com/'
 
 App deployed at :https://energy-services.herokuapp.com/
 
