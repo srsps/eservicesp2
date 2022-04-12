@@ -22,6 +22,10 @@ filehandler = open("./dat/raw_data","rb")
 raw_data=pickle.load(filehandler)
 filehandler.close()
 
+filehandler = open("./dat/raw_dat1","rb")
+raw_data1=pickle.load(filehandler)
+filehandler.close()
+
 filehandler = open("./dat/zscore","rb")
 zscore=pickle.load(filehandler)
 filehandler.close()
@@ -32,6 +36,10 @@ filehandler.close()
 
 filehandler = open("./dat/y-test","rb")
 y_test=pickle.load(filehandler)
+filehandler.close()
+
+filehandler = open("./dat/y_test2","rb")
+y_test2=pickle.load(filehandler)
 filehandler.close()
 
 filehandler = open("./dat/y_pred_Gb","rb")
@@ -49,6 +57,23 @@ filehandler.close()
 filehandler = open("./dat/y_pred_XGB","rb")
 y_pred_XGB=pickle.load(filehandler)
 filehandler.close()
+
+filehandler = open("./dat/y_pred_GB19","rb")
+y_pred_GB19=pickle.load(filehandler)
+filehandler.close()
+
+filehandler = open("./dat/y_pred_RF19","rb")
+y_pred_RF19=pickle.load(filehandler)
+filehandler.close()
+
+filehandler = open("./dat/y_pred_NN19","rb")
+y_pred_NN19=pickle.load(filehandler)
+filehandler.close()
+
+filehandler = open("./dat/y_pred_XGB19","rb")
+y_pred_XGB19=pickle.load(filehandler)
+filehandler.close()
+
 data_GB=pd.DataFrame(y_test[1:200], columns=['Test'])
 data_GB['Prediction'] = y_pred_GB[1:200]
 data_XGB=pd.DataFrame(y_test[1:200], columns=['Test'])
@@ -58,15 +83,24 @@ data_RF['Prediction'] = y_pred_RF[1:200]
 data_NN=pd.DataFrame(y_test[1:200], columns=['Test'])
 data_NN['Prediction'] = y_pred_NN[1:200]
 
+data_GB19=pd.DataFrame(y_test[1:200], columns=['Test'])
+data_GB19['Prediction'] = y_pred_GB[1:200]
+data_XGB19=pd.DataFrame(y_test[1:200], columns=['Test'])
+data_XGB19['Prediction'] = y_pred_XGB[1:200]
+data_RF19=pd.DataFrame(y_test[1:200], columns=['Test'])
+data_RF19['Prediction'] = y_pred_RF[1:200]
+data_NN19=pd.DataFrame(y_test[1:200], columns=['Test'])
+data_NN19['Prediction'] = y_pred_NN[1:200]
+
 
 #==============Graphs Dynamic====================================================
 #EDA
-eda1=px.line(raw_data, x=raw_data.index, y='Power_kW') 
-eda2=px.line(raw_data, x=raw_data.index, y='temp_C')
-eda3=px.line(raw_data, x=raw_data.index, y='solarRad_W/m2')
-eda4=px.line(raw_data, x=raw_data.index, y='pres_mbar')
-eda5=px.line(raw_data, x=raw_data.index, y='rain_mm/h')
-eda6=px.line(raw_data, x=raw_data.index, y='Holiday')
+eda1=px.line(raw_data1, x=raw_data1.index, y='Power_kW') 
+eda2=px.line(raw_data1, x=raw_data1.index, y='temp_C')
+eda3=px.line(raw_data1, x=raw_data1.index, y='solarRad_W/m2')
+eda4=px.line(raw_data1, x=raw_data1.index, y='pres_mbar')
+eda5=px.line(raw_data1, x=raw_data1.index, y='rain_mm/h')
+eda6=px.line(raw_data1, x=raw_data1.index, y='Holiday')
 
 #Clusters
 
@@ -117,6 +151,50 @@ MAE_NN=mean_absolute_error(y_test,y_pred_NN)
 MSE_NN=mean_squared_error(y_test,y_pred_NN)  
 RMSE_NN= np.sqrt(mean_squared_error(y_test,y_pred_NN))
 cvRMSE_NN=RMSE_NN/np.mean(y_test)
+
+
+#GB
+gb19 = px.line(data_GB19, color_discrete_map = {"Prediction":"blue", "Test":"red"},
+                       width=700, height=400, labels=dict(x="Time", y="Load_kW"))
+gb29=px.scatter(data_GB19,x ='Test', y = 'Prediction', color_discrete_sequence = ["maroon"],
+                         width=700, height=400, labels=dict(x="Real data", y="Regression Results"))
+mse_gb19 =mean_squared_error(y_test2,y_pred_GB19)
+rmse_gb19 =mean_squared_error(y_test2, y_pred_GB19, squared=False)
+mae_gb19 = mean_absolute_error(y_test2,y_pred_GB19)
+cvRMSE_gb19=rmse_gb19/np.mean(y_test2)
+#RF
+rf19 = px.line(data_RF19, color_discrete_map = {"Prediction":"blue", "Test":"red"},
+                       width=700, height=400, labels=dict(x="Time", y="Load_kW"))
+rf29=px.scatter(data_RF19,x ='Test', y = 'Prediction', color_discrete_sequence = ["maroon"],
+                         width=700, height=400, labels=dict(x="Real data", y="Regression Results"))
+
+MAE_RF19=mean_absolute_error(y_test2,y_pred_RF19)
+MSE_RF19=mean_squared_error(y_test2,y_pred_RF19)  
+RMSE_RF19= np.sqrt(mean_squared_error(y_test2,y_pred_RF19))
+cvRMSE_RF19=RMSE_RF19/np.mean(y_test2)
+
+#XGB
+xgb19 = px.line(data_XGB19, color_discrete_map = {"Prediction":"blue", "Test":"red"},
+                       width=700, height=400, labels=dict(x="Time", y="Load_kW"))
+xgb29=px.scatter(data_XGB19,x ='Test', y = 'Prediction', color_discrete_sequence = ["maroon"],
+                         width=700, height=400, labels=dict(x="Real data", y="Regression Results"))
+MAE_XGB19=mean_absolute_error(y_test2,y_pred_XGB19) 
+MSE_XGB19=mean_squared_error(y_test2,y_pred_XGB19)  
+RMSE_XGB19= np.sqrt(mean_squared_error(y_test2,y_pred_XGB19))
+cvRMSE_XGB19=RMSE_XGB19/np.mean(y_test2)
+
+#NN
+nn19 = px.line(data_NN19, color_discrete_map = {"Prediction":"blue", "Test":"red"},
+                       width=700, height=400, labels=dict(x="Time", y="Load_kW"))
+nn29=px.scatter(data_NN19,x ='Test', y = 'Prediction', color_discrete_sequence = ["maroon"],
+                         width=700, height=400, labels=dict(x="Real data", y="Regression Results"))
+MAE_NN19=mean_absolute_error(y_test2,y_pred_NN19) 
+MSE_NN19=mean_squared_error(y_test2,y_pred_NN19)  
+RMSE_NN19= np.sqrt(mean_squared_error(y_test2,y_pred_NN19))
+cvRMSE_NN19=RMSE_NN/np.mean(y_test2)
+
+
+
 #======================================================================
 # Error Cards
 #=======================================================================
@@ -201,6 +279,91 @@ cardrmse =dbc.Card(
           "height":"9rem"
            })
 
+cardcvRMS1 =dbc.Card(
+   [
+    dbc.CardBody(
+        [
+             # html.H6("Strategies", className="card-subtitle"),
+              dbc.ListGroup(
+                [html.H5("cvRMSE", className="strat1"),
+                    dbc.ListGroupItem( html.Span(id='cvrmse1', children=''))
+                    ])
+              ]
+        )
+       
+                    
+     ],
+   color="dark",
+   inverse=False,
+   outline=False,
+   style={"width": "13rem",
+          "height":"9rem"
+           })
+cardmae1 =dbc.Card(
+   [
+    dbc.CardBody(
+        [
+             # html.H6("Strategies", className="card-subtitle"),
+              dbc.ListGroup(
+                [html.H5("MAE", className="strat1"),
+                    dbc.ListGroupItem( html.Span(id='mae1', children=''))
+                    ])
+              ]
+        )
+       
+                    
+     ],
+   color="dark",
+   inverse=False,
+   outline=False,
+   style={"width": "13rem",
+          "height":"9rem"
+           }),
+cardmse1 =dbc.Card(
+   [
+    dbc.CardBody(
+        [
+             # html.H6("Strategies", className="card-subtitle"),
+              dbc.ListGroup(
+                [html.H5("MSE", className="strat1"),
+                    dbc.ListGroupItem( html.Span(id='mse1', children=''))
+                    ])
+              ]
+        )
+       
+                    
+     ],
+   color="dark",
+   inverse=False,
+   outline=False,
+   style={"width": "13rem",
+          "height":"9rem"
+           })
+cardrmse1 =dbc.Card(
+   [
+    dbc.CardBody(
+        [
+             # html.H6("Strategies", className="card-subtitle"),
+              dbc.ListGroup(
+                [html.H5("RMSE", className="strat1"),
+                    dbc.ListGroupItem( html.Span(id='rmse1', children=''))
+                    ])
+              ]
+        )
+       
+                    
+     ],
+   color="dark",
+   inverse=False,
+   outline=False,
+   style={"width": "13rem",
+          "height":"9rem"
+           })
+
+
+
+
+
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CERULEAN])
 
 # styling the sidebar
@@ -236,7 +399,8 @@ sidebar = html.Div(
                 dbc.NavLink("Exploratory Data Analysis", href="/page-EDA", active="exact"),
                 dbc.NavLink("Data Cleaning", href="/page-clean", active="exact"),
                 dbc.NavLink("Clustering & Features",href="/page-CLT",active="exact"),
-                dbc.NavLink("Forecasts", href="/page-RGR", active="exact"),
+                dbc.NavLink("Forecast Models", href="/page-RGR", active="exact"),
+                dbc.NavLink("Prediction", href="/page-predict", active="exact"),
             ],
             vertical=True,
             pills=True,
@@ -273,14 +437,15 @@ def render_page_content(pathname):
             html.P("The data was parsed on date and merged. The outliers analysis was done using exploratory data analysis. The observed outliers were removed using \
                 2 different methods to compare. The clean data was subjected to clustering to find best features/regressors for the models. 2D and 3D clustering was \
                     executed and data was subjected to a SHAP analysis for feature selection. The selected features were used to model 5 different forecast models. The \
-                        models were tested and error coefficients are found and represented")
+                        models were tested and error coefficients are found and represented. The data from 2019 is represnted in EDA tab. The prediciton models are in \
+                            prediciton tab.")
                    
                ]
     elif pathname=="/page-EDA":
         return html.Div([
             html.H3('Exploratory Data Analysis'),
             html.Hr(),
-            html.P("Select the option to view the data"),
+            html.P("Select the option to view the data : 2019"),
             dcc.Dropdown(id='rawdrop',
         options=[
             {'label': 'Power (kW)', 'value': 201},
@@ -351,7 +516,7 @@ def render_page_content(pathname):
             ]
     elif pathname == "/page-RGR":
         return [
-                html.H3('Forecast Models'),
+                html.H3('Prediction for 2019'),
             dcc.Dropdown( 
         id='fordropdown',
         options=[        
@@ -373,6 +538,35 @@ def render_page_content(pathname):
                 dbc.Col(cardmse,width=3),
                 dbc.Col(cardrmse,width=3),
                 dbc.Col(cardcvRMS,width=3)
+                ])]
+            
+        )
+        
+                ]
+    elif pathname == "/page-predict":
+        return [
+                html.H3('Forecast Models'),
+            dcc.Dropdown( 
+        id='predict',
+        options=[        
+            {'label': 'Neural Networks','value': 601},
+            {'label': 'Gradient Boosting','value': 602},
+            {'label': 'Extreme Gradient Boosting','value': 603},
+            {'label': 'Random Forest','value': 604},
+            
+        ], 
+        value=601
+        ),
+        html.Div(id='forecast19'),
+        html.Div(id='forecast29'),
+        html.Br(),
+        html.H5("Error Rates for the Selected model"),
+        html.Hr(),
+        html.Div([dbc.Row([
+                dbc.Col(cardmae1,width=3),
+                dbc.Col(cardmse1,width=3),
+                dbc.Col(cardrmse1,width=3),
+                dbc.Col(cardcvRMS1,width=3)
                 ])]
             
         )
@@ -518,19 +712,75 @@ def  render_figure_reg1(reg):
     if reg==501:
         return[round(MAE_NN,4),round(MSE_NN,4),round(RMSE_NN,4),round(cvRMSE_NN,4)
         ]
-    if reg==502:
+    elif reg==502:
             return[round(mae_gb,4),round(mse_gb,4),round(rmse_gb,4),round(cvRMSE_gb,4)
         ]
-    if reg==503:
+    elif reg==503:
         return[round(MAE_XGB,4),round(MSE_XGB,4),round(RMSE_XGB,4),round(cvRMSE_XGB,4)
         ]
-    if reg==504:
+    elif reg==504:
         return[round(MAE_RF,4),round(MSE_RF,4),round(RMSE_RF,4),round(cvRMSE_RF,4)
         ]
-    if reg==505:
+    elif reg==505:
         return[29.5,'NA','NA','NA']
     
-
+#pg5
+@app.callback(
+  [  Output("forecast19", "children"),
+     Output("forecast29","children") ,       
+     ],
+     [Input("predict", "value")])
+ 
+def  render_figure_reg2(reg):
+    if reg==601:
+        return[
+            html.Div(dcc.Graph(id='nn19',figure=nn19)),
+            html.Div(dcc.Graph(id='nn29',figure=nn29))
+            
+        ]
+    elif reg==602:
+            return[
+            html.Div(dcc.Graph(id='gb19',figure=gb19)),
+            html.Div(dcc.Graph(id='gb29',figure=gb29))
+            
+        ]
+    elif reg==603:
+        return[
+            html.Div(dcc.Graph(id='xgb19',figure=xgb19)),
+            html.Div(dcc.Graph(id='xgb29',figure=xgb29))
+            
+        ]
+    elif reg==604:
+         return[
+            html.Div(dcc.Graph(id='rf19',figure=rf19)),
+            html.Div(dcc.Graph(id='rf29',figure=rf29))
+            
+        ]
+    
+    
+@app.callback(
+  [  Output("mae1", "children"),
+     Output("mse1","children") ,
+     Output("rmse1","children"),
+     Output("cvrmse1","children"),
+         
+     ],
+     [Input("predict", "value")])
+ 
+def  render_figure_reg1(reg):
+    if reg==601:
+        return[round(MAE_NN19,4),round(MSE_NN19,4),round(RMSE_NN19,4),round(cvRMSE_NN19,4)
+        ]
+    if reg==602:
+            return[round(mae_gb19,4),round(mse_gb19,4),round(rmse_gb19,4),round(cvRMSE_gb19,4)
+        ]
+    if reg==603:
+        return[round(MAE_XGB19,4),round(MSE_XGB19,4),round(RMSE_XGB19,4),round(cvRMSE_XGB19,4)
+        ]
+    if reg==604:
+        return[round(MAE_RF19,4),round(MSE_RF19,4),round(RMSE_RF19,4),round(cvRMSE_RF19,4)
+        ]
+    
             
    
     
