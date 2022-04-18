@@ -15,7 +15,10 @@ Then navigate to `localhost:4000` in your web browser.
 
 There are 5 tabs in this app: `About, Exploratory Data Analysis ,Cleaning,Clustering,Forecasts`
 
+## Forecasting
+The forecasting is based on the models created in project1. To use Power-1 as a regressor an intricate iterative loop is deployed.
 
+For details read the forecast.py file
 
 ## Documentation
 

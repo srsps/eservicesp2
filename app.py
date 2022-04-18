@@ -42,6 +42,10 @@ filehandler = open("./dat/y_test2","rb")
 y_test2=pickle.load(filehandler)
 filehandler.close()
 
+filehandler = open("./dat/y_19","rb")
+y_19=pickle.load(filehandler)
+filehandler.close()
+
 filehandler = open("./dat/y_pred_Gb","rb")
 y_pred_GB=pickle.load(filehandler)
 filehandler.close()
@@ -83,14 +87,15 @@ data_RF['Prediction'] = y_pred_RF[1:200]
 data_NN=pd.DataFrame(y_test[1:200], columns=['Test'])
 data_NN['Prediction'] = y_pred_NN[1:200]
 
-data_GB19=pd.DataFrame(y_test[1:200], columns=['Test'])
-data_GB19['Prediction'] = y_pred_GB[1:200]
-data_XGB19=pd.DataFrame(y_test[1:200], columns=['Test'])
-data_XGB19['Prediction'] = y_pred_XGB[1:200]
-data_RF19=pd.DataFrame(y_test[1:200], columns=['Test'])
-data_RF19['Prediction'] = y_pred_RF[1:200]
-data_NN19=pd.DataFrame(y_test[1:200], columns=['Test'])
-data_NN19['Prediction'] = y_pred_NN[1:200]
+data_GB19=pd.DataFrame(y_19[1:300], columns=['Test'])
+data_GB19['Prediction'] = y_pred_GB19[1:300]
+
+data_XGB19=pd.DataFrame(y_19[1:300], columns=['Test'])
+data_XGB19['Prediction'] = y_pred_XGB19[1:300]
+data_RF19=pd.DataFrame(y_19[1:300], columns=['Test'])
+data_RF19['Prediction'] = y_pred_RF19[1:300]
+data_NN19=pd.DataFrame(y_19[1:300], columns=['Test'])
+data_NN19['Prediction'] = y_pred_NN19[1:300]
 
 
 #==============Graphs Dynamic====================================================
@@ -158,40 +163,40 @@ gb19 = px.line(data_GB19, color_discrete_map = {"Prediction":"blue", "Test":"red
                        width=700, height=400, labels=dict(x="Time", y="Load_kW"))
 gb29=px.scatter(data_GB19,x ='Test', y = 'Prediction', color_discrete_sequence = ["maroon"],
                          width=700, height=400, labels=dict(x="Real data", y="Regression Results"))
-mse_gb19 =mean_squared_error(y_test2,y_pred_GB19)
-rmse_gb19 =mean_squared_error(y_test2, y_pred_GB19, squared=False)
-mae_gb19 = mean_absolute_error(y_test2,y_pred_GB19)
-cvRMSE_gb19=rmse_gb19/np.mean(y_test2)
+mse_gb19 =mean_squared_error(y_19,y_pred_GB19)
+rmse_gb19 =mean_squared_error(y_19, y_pred_GB19, squared=False)
+mae_gb19 = mean_absolute_error(y_19,y_pred_GB19)
+cvRMSE_gb19=rmse_gb19/np.mean(y_19)
 #RF
 rf19 = px.line(data_RF19, color_discrete_map = {"Prediction":"blue", "Test":"red"},
                        width=700, height=400, labels=dict(x="Time", y="Load_kW"))
 rf29=px.scatter(data_RF19,x ='Test', y = 'Prediction', color_discrete_sequence = ["maroon"],
                          width=700, height=400, labels=dict(x="Real data", y="Regression Results"))
 
-MAE_RF19=mean_absolute_error(y_test2,y_pred_RF19)
-MSE_RF19=mean_squared_error(y_test2,y_pred_RF19)  
-RMSE_RF19= np.sqrt(mean_squared_error(y_test2,y_pred_RF19))
-cvRMSE_RF19=RMSE_RF19/np.mean(y_test2)
+MAE_RF19=mean_absolute_error(y_19,y_pred_RF19)
+MSE_RF19=mean_squared_error(y_19,y_pred_RF19)  
+RMSE_RF19= np.sqrt(mean_squared_error(y_19,y_pred_RF19))
+cvRMSE_RF19=RMSE_RF19/np.mean(y_19)
 
 #XGB
 xgb19 = px.line(data_XGB19, color_discrete_map = {"Prediction":"blue", "Test":"red"},
                        width=700, height=400, labels=dict(x="Time", y="Load_kW"))
 xgb29=px.scatter(data_XGB19,x ='Test', y = 'Prediction', color_discrete_sequence = ["maroon"],
                          width=700, height=400, labels=dict(x="Real data", y="Regression Results"))
-MAE_XGB19=mean_absolute_error(y_test2,y_pred_XGB19) 
-MSE_XGB19=mean_squared_error(y_test2,y_pred_XGB19)  
-RMSE_XGB19= np.sqrt(mean_squared_error(y_test2,y_pred_XGB19))
-cvRMSE_XGB19=RMSE_XGB19/np.mean(y_test2)
+MAE_XGB19=mean_absolute_error(y_19,y_pred_XGB19) 
+MSE_XGB19=mean_squared_error(y_19,y_pred_XGB19)  
+RMSE_XGB19= np.sqrt(mean_squared_error(y_19,y_pred_XGB19))
+cvRMSE_XGB19=RMSE_XGB19/np.mean(y_19)
 
 #NN
 nn19 = px.line(data_NN19, color_discrete_map = {"Prediction":"blue", "Test":"red"},
                        width=700, height=400, labels=dict(x="Time", y="Load_kW"))
 nn29=px.scatter(data_NN19,x ='Test', y = 'Prediction', color_discrete_sequence = ["maroon"],
                          width=700, height=400, labels=dict(x="Real data", y="Regression Results"))
-MAE_NN19=mean_absolute_error(y_test2,y_pred_NN19) 
-MSE_NN19=mean_squared_error(y_test2,y_pred_NN19)  
-RMSE_NN19= np.sqrt(mean_squared_error(y_test2,y_pred_NN19))
-cvRMSE_NN19=RMSE_NN/np.mean(y_test2)
+MAE_NN19=mean_absolute_error(y_19,y_pred_NN19) 
+MSE_NN19=mean_squared_error(y_19,y_pred_NN19)  
+RMSE_NN19= np.sqrt(mean_squared_error(y_19,y_pred_NN19))
+cvRMSE_NN19=RMSE_NN/np.mean(y_19)
 
 
 
@@ -516,7 +521,7 @@ def render_page_content(pathname):
             ]
     elif pathname == "/page-RGR":
         return [
-                html.H3('Prediction for 2019'),
+                html.H3('Forecast Models'),
             dcc.Dropdown( 
         id='fordropdown',
         options=[        
@@ -545,7 +550,8 @@ def render_page_content(pathname):
                 ]
     elif pathname == "/page-predict":
         return [
-                html.H3('Forecast Models'),
+                html.H3('Prediction for 2019'),
+                html.Hr(),
             dcc.Dropdown( 
         id='predict',
         options=[        
